@@ -4,17 +4,21 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>前端之路</title>
+  <title>常用的Javascript设计模式(二) | 前端之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="stay hungry！stay foolish！…">
-<meta property="og:type" content="website">
-<meta property="og:title" content="前端之路">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="一 单例模式单例模式的定义是产生一个类的唯一实例，但js本身是一种“无类”语言。很多讲js设计模式的文章把{}当成一个单例来使用也勉强说得通。
+12345678910var singleton = function( fn )&amp;#123;	var result;	return function()&amp;#123;	    return result || ( result = fn .apply( t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用的Javascript设计模式(二)">
+<meta property="og:url" content="http://yoursite.com/2016/01/06/designmode2/index.html">
 <meta property="og:site_name" content="前端之路">
-<meta property="og:description" content="stay hungry！stay foolish！…">
+<meta property="og:description" content="一 单例模式单例模式的定义是产生一个类的唯一实例，但js本身是一种“无类”语言。很多讲js设计模式的文章把{}当成一个单例来使用也勉强说得通。
+12345678910var singleton = function( fn )&amp;#123;	var result;	return function()&amp;#123;	    return result || ( result = fn .apply( t">
+<meta property="og:updated_time" content="2016-01-06T08:46:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="前端之路">
-<meta name="twitter:description" content="stay hungry！stay foolish！…">
+<meta name="twitter:title" content="常用的Javascript设计模式(二)">
+<meta name="twitter:description" content="一 单例模式单例模式的定义是产生一个类的唯一实例，但js本身是一种“无类”语言。很多讲js设计模式的文章把{}当成一个单例来使用也勉强说得通。
+12345678910var singleton = function( fn )&amp;#123;	var result;	return function()&amp;#123;	    return result || ( result = fn .apply( t">
   
     <link rel="alternative" href="/atom.xml" title="前端之路" type="application/atom+xml">
   
@@ -167,9 +171,7 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
-  
-    <article id="post-designmode2" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-designmode2" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2016/01/06/designmode2/" class="article-date">
@@ -185,82 +187,23 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/06/designmode2/">常用的Javascript设计模式(二)</a>
+    <h1 class="article-title" itemprop="name">
+      常用的Javascript设计模式(二)
     </h1>
   
 
       </header>
       
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="u4E00__u5355_u4F8B_u6A21_u5F0F"><a href="#u4E00__u5355_u4F8B_u6A21_u5F0F" class="headerlink" title="一 单例模式"></a>一 单例模式</h3><p>单例模式的定义是产生一个类的唯一实例，但js本身是一种“无类”语言。很多讲js设计模式的文章把{}当成一个单例来使用也勉强说得通。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var singleton = <span class="keyword">function</span>( fn )&#123;</span><br><span class="line">	var result;</span><br><span class="line">	<span class="built_in">return</span> <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	    <span class="built_in">return</span> result || ( result = fn .apply( this, arguments ) );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">var createMask = singleton( <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">	<span class="built_in">return</span> document.body.appendChild( document.createElement(<span class="string">'div'</span>) );</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>用一个变量来保存第一次的返回值, 如果它已经被赋值过, 那么在以后的调用中优先返回该变量. 而真正创建遮罩层的代码是通过回调函数的方式传人到singleton包装器中的. 这种方式其实叫桥接模式. 关于桥接模式, 放在后面一点点来说.</p>
-<h3 id="u4E8C__u7B80_u5355_u5DE5_u5382_u6A21_u5F0F"><a href="#u4E8C__u7B80_u5355_u5DE5_u5382_u6A21_u5F0F" class="headerlink" title="二 简单工厂模式"></a>二 简单工厂模式</h3><p>简单工厂模式是由一个方法来决定到底要创建哪个类的实例, 而这些实例经常都拥有相同的接口. 这种模式主要用在所实例化的类型在编译期并不能确定， 而是在执行期决定的情况。 说的通俗点，就像公司茶水间的饮料机，要咖啡还是牛奶取决于你按哪个按钮。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var Car = (<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    var Car = <span class="keyword">function</span> (model, year, miles) &#123;</span><br><span class="line">        this.model = model;</span><br><span class="line">        this.year = year;</span><br><span class="line">        this.miles = miles;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">return</span> <span class="keyword">function</span> (model, year, miles) &#123;</span><br><span class="line">        <span class="built_in">return</span> new Car(model, year, miles);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var tom = new Car(<span class="string">"Tom"</span>, <span class="number">2009</span>, <span class="number">20000</span>);</span><br><span class="line">var dudu = new Car(<span class="string">"Dudu"</span>, <span class="number">2010</span>, <span class="number">5000</span>);</span><br></pre></td></tr></table></figure>
-<p>下面的代码展示如何使用Factory模式来实现vehicle工厂：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// 定义Car 构造函数</span><br><span class="line"><span class="keyword">function</span> Car(options)&#123;</span><br><span class="line">    this.doors = options.doors || <span class="number">4</span>;</span><br><span class="line">    this.color = options.color || <span class="string">"silver"</span>;</span><br><span class="line">    this.state = options.state || <span class="string">"brand new"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 定义Truck 构造函数</span><br><span class="line"><span class="keyword">function</span> Truck(options)&#123;</span><br><span class="line">    this.wheelSize = options.wheelSize || <span class="number">2</span>;</span><br><span class="line">    this.color = options.color || <span class="string">"blue"</span>;</span><br><span class="line">    this.state = options.state || <span class="string">"used"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 定义vehicle 工厂的大体代码</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">VehicleFactory</span></span>()&#123;&#125;;</span><br><span class="line">// 定义factory 模式的原型 和默认的vehicleClass</span><br><span class="line">VehicleFactory.prototype.vehicleClass = Car;</span><br><span class="line">VehicleFactory.prototype.createVehicle = <span class="keyword">function</span>(options)&#123;</span><br><span class="line">    options.vehicleType == <span class="string">"Car"</span>? this.vehicleClass== Car : this.vehicleClass== Truck;</span><br><span class="line">    // 返回 实例</span><br><span class="line">    <span class="built_in">return</span> new this.vehicleClass(options);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 创建生产汽车的工厂实例</span><br><span class="line">var carFactory = new VehicleFactory();</span><br><span class="line"></span><br><span class="line">// 下面就可以调用carFactory 创建具体的实例对象</span><br><span class="line">var car = carFactory.createVehicle(&#123;</span><br><span class="line">    vehicleType: <span class="string">"car"</span>,</span><br><span class="line">    color: <span class="string">"yellow"</span>,</span><br><span class="line">    doors: <span class="string">"6"</span></span><br><span class="line">&#125;);</span><br><span class="line">console.log(car);</span><br></pre></td></tr></table></figure>
-<p>以下几种情景下工厂模式特别有用：</p>
-<p>1、对象的构建十分复杂<br>2、需要依赖具体环境创建不同实例<br>3、处理大量具有相同属性的小对象</p>
-<h3 id="u4E09__u89C2_u5BDF_u8005_u6A21_u5F0F"><a href="#u4E09__u89C2_u5BDF_u8005_u6A21_u5F0F" class="headerlink" title="三 观察者模式"></a>三 观察者模式</h3><p>观察者模式又叫发布订阅模式（Publish/Subscribe），它定义了一种一对多的关系，让多个观察者对象同时监听某一个主题对象，这个主题对象的状态发生变化时就会通知所有的观察者对象，使得它们能够自动更新自己。</p>
-<p>JS里对观察者模式的实现是通过回调来实现的，我们来先定义一个pubsub对象，其内部包含了3个方法：订阅、退订、发布。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
+      <div class="article-info article-info-post">
+        
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
 	</div>
 
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/01/06/designmode2/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-designmode1" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/01/05/designmode1/" class="article-date">
-  	<time datetime="2016-01-05T09:11:17.000Z" itemprop="datePublished">2016-01-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/05/designmode1/">常用的Javascript设计模式(一)</a>
-    </h1>
-  
 
-      </header>
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -276,27 +219,49 @@
 <p>1、对象的构建十分复杂<br>2、需要依赖具体环境创建不同实例<br>3、处理大量具有相同属性的小对象</p>
 <h3 id="u4E09__u89C2_u5BDF_u8005_u6A21_u5F0F"><a href="#u4E09__u89C2_u5BDF_u8005_u6A21_u5F0F" class="headerlink" title="三 观察者模式"></a>三 观察者模式</h3><p>观察者模式又叫发布订阅模式（Publish/Subscribe），它定义了一种一对多的关系，让多个观察者对象同时监听某一个主题对象，这个主题对象的状态发生变化时就会通知所有的观察者对象，使得它们能够自动更新自己。</p>
 <p>JS里对观察者模式的实现是通过回调来实现的，我们来先定义一个pubsub对象，其内部包含了3个方法：订阅、退订、发布。</p>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">var pubsub = &#123;&#125;;</span><br><span class="line">(<span class="keyword">function</span> (q) &#123;</span><br><span class="line"></span><br><span class="line">    var topics = &#123;&#125;, // 回调函数存放的数组</span><br><span class="line">        subUid = -<span class="number">1</span>;</span><br><span class="line">    // 发布方法</span><br><span class="line">    q.publish = <span class="keyword">function</span> (topic, args) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!topics[topic]) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">set</span>Timeout(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">            var subscribers = topics[topic],</span><br><span class="line">                len = subscribers ? subscribers.length : <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (len--) &#123;</span><br><span class="line">                subscribers[len].func(topic, args);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">    //订阅方法</span><br><span class="line">    q.subscribe = <span class="keyword">function</span> (topic, func) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!topics[topic]) &#123;</span><br><span class="line">            topics[topic] = [];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        var token = (++subUid).toString();</span><br><span class="line">        topics[topic].push(&#123;</span><br><span class="line">            token: token,</span><br><span class="line">            func: func</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="built_in">return</span> token;</span><br><span class="line">    &#125;;</span><br><span class="line">    //退订方法</span><br><span class="line">    q.unsubscribe = <span class="keyword">function</span> (token) &#123;</span><br><span class="line">        <span class="keyword">for</span> (var m <span class="keyword">in</span> topics) &#123;</span><br><span class="line">            <span class="keyword">if</span> (topics[m]) &#123;</span><br><span class="line">                <span class="keyword">for</span> (var i = <span class="number">0</span>, j = topics[m].length; i &lt; j; i++) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (topics[m][i].token === token) &#123;</span><br><span class="line">                        topics[m].splice(i, <span class="number">1</span>);</span><br><span class="line">                        <span class="built_in">return</span> token;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; (pubsub));</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//来，订阅一个</span><br><span class="line">pubsub.subscribe(<span class="string">'example1'</span>, <span class="keyword">function</span> (topics, data) &#123;</span><br><span class="line">    console.log(topics + <span class="string">": "</span> + data);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//发布通知</span><br><span class="line">pubsub.publish(<span class="string">'example1'</span>, <span class="string">'hello world!'</span>);</span><br><span class="line">pubsub.publish(<span class="string">'example1'</span>, [<span class="string">'test'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]);</span><br><span class="line">pubsub.publish(<span class="string">'example1'</span>, [&#123; <span class="string">'color'</span>: <span class="string">'blue'</span> &#125;, &#123; <span class="string">'text'</span>: <span class="string">'hello'</span>&#125;]);</span><br></pre></td></tr></table></figure>
+<p>观察者的使用场合就是：当一个对象的改变需要同时改变其它对象，并且它不知道具体有多少对象需要改变的时候，就应该考虑使用观察者模式。</p>
+<p>总的来说，观察者模式所做的工作就是在解耦，让耦合的双方都依赖于抽象，而不是依赖于具体。从而使得各自的变化都不会影响到另一边的变化。</p>
 
       
-        <p class="article-more-link">
-          <a  href="/2016/01/05/designmode1/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
     </div>
     
   </div>
   
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/01/05/designmode1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">常用的Javascript设计模式(一)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
 </article>
 
 
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
 
@@ -304,8 +269,7 @@
 
 
 
-  
-  
+
 </div>
       <footer id="footer">
   <div class="outer">
@@ -329,8 +293,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
