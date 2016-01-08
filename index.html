@@ -169,6 +169,81 @@
 
       <div class="body-wrap">
   
+    <article id="post-designmode3" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/08/designmode3/" class="article-date">
+  	<time datetime="2016-01-08T06:43:44.000Z" itemprop="datePublished">2016-01-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/08/designmode3/">常用的Javascript设计模式(三)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="u4E00_Mixin_28_u6DF7_u5165_29__u6A21_u5F0F"><a href="#u4E00_Mixin_28_u6DF7_u5165_29__u6A21_u5F0F" class="headerlink" title="一 Mixin(混入) 模式"></a>一 Mixin(混入) 模式</h3><p>我们可以将继承Mixin看作为一种通过扩展收集功能的方式。</p>
+<p><img src="/../img/mixin.jpg" alt=""></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// 定义简单的Car构造函数</span><br><span class="line">var Car = <span class="keyword">function</span>(settings)&#123;</span><br><span class="line">	this.model = settings.model || <span class="string">"no model"</span>;</span><br><span class="line">	this.color = settings.color || <span class="string">"no color"</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 定义Mixin</span><br><span class="line">var Mixin = <span class="function"><span class="title">function</span></span>()&#123;&#125;;</span><br><span class="line">Mixin.prototype = &#123;</span><br><span class="line">	driveForward : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">		console.log(<span class="string">"drive forward"</span>);</span><br><span class="line">	&#125;,</span><br><span class="line">	driveBackward : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">		console.log(<span class="string">"drive backward"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 实现 extend 方法</span><br><span class="line"><span class="keyword">function</span> augment(receivingClass, givingClass)&#123;</span><br><span class="line">	// 只提供特定的方法</span><br><span class="line">	<span class="keyword">if</span>(arguments.length&gt;<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span> (var i = <span class="number">2</span>; i &lt; arguments.length; i++) &#123;</span><br><span class="line">			receivingClass.prototype[arguments[i]] = givingClass.prototype[arguments[i]];</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		// 提供所有方法 </span><br><span class="line">		<span class="keyword">for</span>(var methodname <span class="keyword">in</span> givingClass.prototype)&#123;</span><br><span class="line">			<span class="keyword">if</span>(!receivingClass.prototype.hasOwnProperty(methodname))&#123;</span><br><span class="line">				receivingClass.prototype[methodname] = givingClass.prototype[methodname];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">// 给Car 赋值 driveForward 属性</span><br><span class="line">augment(Car, Mixin, <span class="string">"driveForward"</span>);</span><br><span class="line">// 实例化 Car</span><br><span class="line">var myCar = new Car(&#123;model:<span class="string">'BMW'</span>, color: <span class="string">"red"</span>&#125;);</span><br><span class="line">myCar.driveForward();</span><br></pre></td></tr></table></figure>
+<h3 id="u4E8C_Decorator_28_u88C5_u9970_u8005_29__u6A21_u5F0F"><a href="#u4E8C_Decorator_28_u88C5_u9970_u8005_29__u6A21_u5F0F" class="headerlink" title="二 Decorator(装饰者) 模式"></a>二 Decorator(装饰者) 模式</h3><p>装饰者可用于为对象添加功能，她可以用来替代大量子类。</p>
+<blockquote>
+<p>我们还是来看那个自行车的例子，假设这件商店开始为每一种自行车提供一些额外的特色配件。现在顾客再加点钱就可以买到前灯、尾灯、前挂篮等。每一种可选配件都会影响到售价和车的组装方法。我们来用装饰者模式来解决这个问题。</p>
+</blockquote>
+<p>装饰者模式特点：</p>
+<ol>
+<li>不修改原对象的原本结构来进行功能添加。</li>
+<li>装饰对象和原对象具有相同的接口，可以使客户以与原对象相同的方式使用装饰对象。</li>
+<li>装饰对象中包含原对象的引用，即装饰对象为真正的原对象在此包装的对象。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// 一辆自行车基本类</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">ABicycle</span></span>()&#123; &#125;</span><br><span class="line">ABicycle.prototype = &#123;</span><br><span class="line">    wash : <span class="function"><span class="title">function</span></span>()&#123; &#125;,</span><br><span class="line">    ride : <span class="function"><span class="title">function</span></span>()&#123; &#125;,</span><br><span class="line">    getPrice : <span class="function"><span class="title">function</span></span>()&#123; </span><br><span class="line">        <span class="built_in">return</span> <span class="number">999</span>; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 装饰模式</span><br><span class="line"><span class="keyword">function</span> BicycleBell( bicycle )&#123;</span><br><span class="line">    this.bicycle = bicycle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BicycleBell.prototype = &#123;</span><br><span class="line">    wash : <span class="function"><span class="title">function</span></span>()&#123; </span><br><span class="line">        <span class="built_in">return</span> this.bicycle.wash();</span><br><span class="line">    &#125;,</span><br><span class="line">    ride : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        <span class="built_in">return</span> this.bicycle.ride();</span><br><span class="line">    &#125;,</span><br><span class="line">    getPrice : <span class="function"><span class="title">function</span></span>()&#123; </span><br><span class="line">        <span class="built_in">return</span> this.bicycle.ride() + <span class="number">100</span>; </span><br><span class="line">    &#125;,</span><br><span class="line">    // 新加铃铛</span><br><span class="line">    bell : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        console.log(<span class="string">"ding! ding! ding!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>包装实例，再次模拟原始类，将实例作为参数包装，提供与原始类一样的接口。这种方式很好的解决了对于某些需要修改并且依赖原始该方法的方法生成形式。当然其也有自己的缺点，这个装饰者太过于繁琐，所有的，比如加速，切换颜色，车篮什么的装饰者每一个都必须如此形式的话势必代码有点杂乱多。</p>
+<p>那么，提取出来吧<br>首先需要有一个继承的方法，并且有指向父类的prototype</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/01/08/designmode3/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-designmode2" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
