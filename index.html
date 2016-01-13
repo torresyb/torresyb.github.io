@@ -105,7 +105,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/闭包/" style="font-size: 10px;">闭包</a>
+						<a href="/tags/js/" style="font-size: 20px;">js</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/prototype/" style="font-size: 10px;">prototype</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/闭包/" style="font-size: 10px;">闭包</a>
 					</div>
 				</section>
 				
@@ -168,6 +168,80 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-prototype" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/13/prototype/" class="article-date">
+  	<time datetime="2016-01-13T10:12:58.000Z" itemprop="datePublished">2016-01-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/13/prototype/">javascript面向对象编程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Javascript是一种基于对象的语言，但是，又不是一种真正意义上的面向对象的语言，因为没有class（类）的语法。</p>
+<h3 id="u4E00_u3001_u521B_u5EFA_u5BF9_u8C61"><a href="#u4E00_u3001_u521B_u5EFA_u5BF9_u8C61" class="headerlink" title="一、创建对象"></a>一、创建对象</h3><p>创建对象就是把属性（property）和方法（method）封装成一个对象，或者从原型对象中实例化一个对象。<br>下面以实例化小狗对象为例，小狗具有名字和品种两个属性。</p>
+<p>1、原始模式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var dog1 = &#123;&#125;;</span><br><span class="line">dog1.name = <span class="string">'二牛'</span>;</span><br><span class="line">dog1.variety = <span class="string">'牛头梗'</span>;</span><br><span class="line"> </span><br><span class="line">var dog2 = &#123;&#125;;</span><br><span class="line">dog2.name = <span class="string">'二狗'</span>;</span><br><span class="line">dog2.variety = <span class="string">'哈士奇'</span>;</span><br></pre></td></tr></table></figure></p>
+<p> 这样封装对象虽然简单，但是有两个缺点，一是如果要创建多个实例的话，写起来会比较麻烦，二是这种写法并不能看出实例和原型之间有什么关系。</p>
+<p> 对原始模式进行改进，<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Dog(name, variety) &#123;</span><br><span class="line">    <span class="built_in">return</span> &#123;</span><br><span class="line">        name: name,</span><br><span class="line">        variety: variety</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var dog1 = Dog(<span class="string">'二牛'</span>, <span class="string">'牛头梗'</span>);</span><br><span class="line">var dog2 = Dog(<span class="string">'二狗'</span>, <span class="string">'哈士奇'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>改进后解决了代码重复的问题，但是dog1和dog2之间并没有内在联系，不是来自于同一个原型对象。</p>
+<p>2、构造函数模式<br>构造函数，是内部使用了this的函数。通过new构造函数就能生成对象实例，并且this变量会绑定在实例对象上。使用构造函数可以解决从原型对象构建实例的问题。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Dog(name, variety) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.variety = variety;</span><br><span class="line">&#125;</span><br><span class="line">var dog1 = new Dog(<span class="string">'二牛'</span>, <span class="string">'牛头梗'</span>);</span><br><span class="line">var dog2 = new Dog(<span class="string">'二狗'</span>, <span class="string">'哈士奇'</span>);</span><br><span class="line"><span class="built_in">print</span>(dog1.name); // 二牛</span><br><span class="line"><span class="built_in">print</span>(dog2.name); // 二狗</span><br></pre></td></tr></table></figure>
+<p>验证实例对象与原型对象之间的关系：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(dog1.cunstructor === Dog); // <span class="literal">true</span></span><br><span class="line"><span class="built_in">print</span>(dog2.cunstructor === Dog); // <span class="literal">true</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(dog1 instanceof Dog); // <span class="literal">true</span></span><br><span class="line"><span class="built_in">print</span>(dog2 instanceof Dog); // <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>这样看来构造函数模式解决了原始模式的缺点，但是它自己又引入了新的缺点，就是有些时候存在浪费内存的问题。比如说，我们现在要给小狗这个对象添加一个公共的属性“type”（种类）和一个公共方法“bark”（吠）：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Dog(name, variety) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.variety = variety;</span><br><span class="line">    this.type = <span class="string">'犬科'</span>;</span><br><span class="line">    this.bark = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">'汪汪汪'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再去实例化对象，<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(dog1.bark() === dog2.bark()); // <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>从中我们可以看出问题，那就是对于每个实例对象而言，type属性和bark方法都是一样的，但是每次创建新的实例，都要为其分配新的内存空间，这样做就会降低性能，浪费空间，缺乏效率。<br>接下来我们就要思考怎样让这些所有实例对象都相同的内容在内存中只生成一次，并且让所有实例的这些相同内容都指向那个内存地址？</p>
+<p>3、Prototype模式</p>
+<p>每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。可以利用这一点，把那些不变的属性和方法，定义在prototype对象上。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oop/">oop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prototype/">prototype</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/01/13/prototype/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-closures" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -286,12 +360,6 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// 一辆自行车基本类</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">ABicycle</span></span>()&#123; &#125;</span><br><span class="line">ABicycle.prototype = &#123;</span><br><span class="line">    wash : <span class="function"><span class="title">function</span></span>()&#123; &#125;,</span><br><span class="line">    ride : <span class="function"><span class="title">function</span></span>()&#123; &#125;,</span><br><span class="line">    getPrice : <span class="function"><span class="title">function</span></span>()&#123; </span><br><span class="line">        <span class="built_in">return</span> <span class="number">999</span>; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 装饰模式</span><br><span class="line"><span class="keyword">function</span> BicycleBell( bicycle )&#123;</span><br><span class="line">    this.bicycle = bicycle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BicycleBell.prototype = &#123;</span><br><span class="line">    wash : <span class="function"><span class="title">function</span></span>()&#123; </span><br><span class="line">        <span class="built_in">return</span> this.bicycle.wash();</span><br><span class="line">    &#125;,</span><br><span class="line">    ride : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        <span class="built_in">return</span> this.bicycle.ride();</span><br><span class="line">    &#125;,</span><br><span class="line">    getPrice : <span class="function"><span class="title">function</span></span>()&#123; </span><br><span class="line">        <span class="built_in">return</span> this.bicycle.ride() + <span class="number">100</span>; </span><br><span class="line">    &#125;,</span><br><span class="line">    // 新加铃铛</span><br><span class="line">    bell : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        console.log(<span class="string">"ding! ding! ding!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>包装实例，再次模拟原始类，将实例作为参数包装，提供与原始类一样的接口。这种方式很好的解决了对于某些需要修改并且依赖原始该方法的方法生成形式。当然其也有自己的缺点，这个装饰者太过于繁琐，所有的，比如加速，切换颜色，车篮什么的装饰者每一个都必须如此形式的话势必代码有点杂乱多。</p>
 <p>那么，提取出来吧<br>首先需要有一个继承的方法，并且有指向父类的prototype</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> extend( subClass, superClass )&#123;</span><br><span class="line">    var F = <span class="function"><span class="title">function</span></span>()&#123;&#125;;</span><br><span class="line">    F.prototype = superClass.prototype;</span><br><span class="line">    subClass.prototype = new F();</span><br><span class="line">    subClass.prototype.constructor = subClass;</span><br><span class="line">    </span><br><span class="line">    // 此处指向superClass的prototype 比直接保存superClass使用更为方便</span><br><span class="line">    subClass.superclass = superClass.prototype;</span><br><span class="line">    <span class="keyword">if</span>( superClass.prototype.constructor === Object.prototype.constructor )&#123;</span><br><span class="line">        superClass.prototype.constructor = superClass;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 再来一个各个装饰者可以依赖继承的中间装饰者：</span><br><span class="line"><span class="keyword">function</span> BicycleDecorator( bicycle )&#123;</span><br><span class="line">    this.bicycle = bicycle;</span><br><span class="line">&#125;</span><br><span class="line">BicycleDecorator.prototype = &#123;</span><br><span class="line">    wash : <span class="function"><span class="title">function</span></span>()&#123; </span><br><span class="line">        <span class="built_in">return</span> this.bicycle.wash();</span><br><span class="line">    &#125;,</span><br><span class="line">    ride : <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        <span class="built_in">return</span> this.bicycle.ride();</span><br><span class="line">    &#125;,</span><br><span class="line">    getPrice : <span class="function"><span class="title">function</span></span>()&#123; </span><br><span class="line">        <span class="built_in">return</span> this.bicycle.ride(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//然后么很巧妙的使用extend</span><br><span class="line">var BicycleBell = <span class="keyword">function</span>( bicycle )&#123;</span><br><span class="line">    // 继承 BicycleDecorator 内部 this定义的数据或者方法</span><br><span class="line">    BicycleBell.superclass.constructor.call( this, bicycle );</span><br><span class="line">&#125;</span><br><span class="line">// 继承 BicycleDecorator.prototype 并且添加 BicycleBell.superclass 指向 BicycleDecorator.prototype</span><br><span class="line">extend( BicycleBell, BicycleDecorator );</span><br><span class="line">// 添加或者修改</span><br><span class="line">BicycleBell.prototype.bell = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">"ding! ding! ding!"</span>);</span><br><span class="line">&#125;</span><br><span class="line">BicycleBell.prototype.getPrice = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    <span class="built_in">return</span> this.bicycle.getPrice() + <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 一样的方式进行实例包装使用</span><br><span class="line">var bicycleA = new ABicycle();</span><br><span class="line">bicycleA = new BicycleBell( bicycleA );</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>再来一例，购买苹果笔记本</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 苹果基础版本 被装饰对象</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">MacBook</span></span>()&#123;</span><br><span class="line">	this.cost = <span class="function"><span class="title">function</span></span>()&#123; <span class="built_in">return</span> <span class="number">997</span>;&#125;;</span><br><span class="line">	this.screenSize = <span class="function"><span class="title">function</span></span>()&#123; <span class="built_in">return</span> <span class="number">11.6</span>;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Decorator <span class="number">1</span></span><br><span class="line"><span class="keyword">function</span> Memory(macbook)&#123;</span><br><span class="line">	var v = macbook.cost;</span><br><span class="line">	macbook.cost = <span class="function"><span class="title">function</span></span>()&#123; <span class="built_in">return</span> v+<span class="number">75</span>;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">// Decorator <span class="number">2</span></span><br><span class="line"><span class="keyword">function</span> Engraving(macbook)&#123;</span><br><span class="line">	var v = macbook.cost;</span><br><span class="line">	macbook.cost = <span class="function"><span class="title">function</span></span>()&#123; <span class="built_in">return</span> v+<span class="number">200</span>;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">// 实例化对象并调用</span><br><span class="line">var mb = new MacBook();</span><br><span class="line">Memory(mb);</span><br><span class="line">Engraving(mb);</span><br></pre></td></tr></table></figure>
-<h3 id="u4E09_Flyweight_28_u4EAB_u5143_29__u6A21_u5F0F"><a href="#u4E09_Flyweight_28_u4EAB_u5143_29__u6A21_u5F0F" class="headerlink" title="三 Flyweight(享元) 模式"></a>三 Flyweight(享元) 模式</h3><p>享元（flyweight）模式是一种用于性能优化的模式，“fly”在这里是苍蝇的意思，意为蝇量级。享元模式的核心是运用共享技术来有效支持大量细粒度的对象。<br>如果系统咽创建大量类似的对象而导致内存占用过高，享元模式就非常有用了。在javascript中，浏览器特别是移动端的浏览器分配的内存并不算多，如何节省内存就成了一件非常有意义的事情。</p>
       
     </div>
     
